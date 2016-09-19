@@ -1,6 +1,6 @@
 'use strict';
 
-var Simple = Simple || {};
+var GoSimple = GoSimple || {};
 
 /**
  * Module: GoSimple.main
