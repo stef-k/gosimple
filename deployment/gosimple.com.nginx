@@ -1,0 +1,160 @@
+# Nginx vhost file including SSL configuration for Let's Encrypt
+# Redirects all HTTP to HTTPS
+# If you need plain HTTP only, do not proceed to the following instructions,
+# just comment the configuration between ## HTTPS SETUP and ## HTTPS SETUP END and
+# uncomment the configuration between ## PLAIN HTTP SETUP and ## PLAIN HTTP SETUP END
+#
+# Let's Encrypt setup for Ubuntu or Debian family OS:
+#
+# 1) Install Let's Encrypt client sudo apt-get update
+#     sudo apt-get install letsencrypt
+#     redirect HTTP to HTTPS
+# 2) Place this file at /etc/nginx/sites-available change
+#     gosimple.com and www.gosimple.com, gosimple.sock ,gosimple_access.log,
+#     gosimple_error.log, with your project/domain name
+# 3) Run the following in your server terminal:
+#     sudo letsencrypt certonly -a webroot --webroot-path=/var/www/html -d gosimple.com -d www.gosimple.com
+#     do not forget to change gosimple.com, www.gosimple.com with your project/domain name
+#     and /var/www/html Nginx document root (check your Nginx config). Default for Ubuntu is /var/www/html
+# 4) You will be asked for an email address by Let's Encrypt for key recovery purposes...
+# 5) Agree with Let's Encrypt Subscribe Agreement
+# 6) Confirm that the generated certificate files are at /etc/letsencrypt/archive by issuing
+#     sudo ls -l /etc/letsencrypt/live/your_domain_name at terminal, you should see:
+#       a)  cert.pem: Your domain's certificate
+#       b)  chain.pem: The Let's Encrypt chain certificate
+#       c)  fullchain.pem: cert.pem and chain.pem combined
+#       d)  privkey.pem: Your certificate's private key
+# 7)  Generate Strong Diffie-Hellman Group:
+#     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+# 8)  Create a Configuration Snippet Pointing to the SSL Key and Certificate, in terminal type:
+#     sudo vim /etc/nginx/snippets/ssl-gosimple.com.conf (change simple to your project/domain name)
+#     and put the following (change gosimple.com with your project/domain name):
+#       ssl_certificate /etc/letsencrypt/live/gosimple.com/fullchain.pem;
+#       ssl_certificate_key /etc/letsencrypt/live/gosimple.com/privkey.pem;
+# 9)  Create a Configuration Snippet with Strong Encryption Settings, in terminal type:
+#     sudo vim /etc/nginx/snippets/ssl-params.conf
+#     paste the following without the # symbol:
+#ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+#ssl_prefer_server_ciphers on;
+#ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+#ssl_ecdh_curve secp384r1;
+#ssl_session_cache shared:SSL:10m;
+#ssl_session_tickets off;
+#ssl_stapling on;
+#ssl_stapling_verify on;
+#resolver 8.8.8.8 8.8.4.4 valid=300s;
+#resolver_timeout 5s;
+#add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
+#add_header X-Frame-Options DENY;
+#add_header X-Content-Type-Options nosniff;
+#ssl_dhparam /etc/ssl/certs/dhparam.pem;
+#
+# CREDITS for the LET'S ENCRYPT setup:
+# https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+#
+#
+## HTTPS SETUP
+# redirect HTTP to HTTPS
+server {
+  listen 80;
+  server_name gosimple.com www.gosimple.com;
+  return 301 https://$server_name$request_uri;
+}
+
+
+# HTTPS simple.com
+server {
+
+  listen 443 ssl http2;
+  include snippets/ssl-gosimple.com.conf;
+  include snippets/ssl-params.conf;
+  server_name gosimple.com www.gosimple.com;
+
+  # logs
+  access_log /var/log/nginx/gosimple_access.log;
+  error_log /var/log/nginx/gosimple_error.log;
+  # do not log events about favicon
+  location = /favicon.ico {
+    access_log off;
+    log_not_found off;
+  }
+
+  location = /favicon.png {
+    access_log off;
+    log_not_found off;
+  }
+
+  proxy_pass_header Server;
+
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forward-Proto $scheme;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+
+    # increase timeout from 60 seconds to 10 hours
+    proxy_read_timeout  36000s;
+
+    # use the port from Beego's conf/app.conf
+    proxy_pass http://127.0.0.1:8080;
+  }
+
+
+  # lets encrypt setup
+  location ~ /\.well-known\/acme-challenge {
+    allow all;
+    root /srv/www;
+  }
+
+}
+## HTTPS SETUP END
+#
+## PLAIN HTTP SETUP
+#server {
+#
+#  listen 80;
+#  server_name gosimple.com www.gosimple.com;
+#
+#  # logs
+#  access_log /var/log/nginx/gosimple_access.log;
+#  error_log /var/log/nginx/gosimple_error.log;
+#  # do not log events about favicon
+#  location = /favicon.ico {
+#    access_log off;
+#    log_not_found off;
+#  }
+#  location = /favicon.png {
+#    access_log off;
+#    log_not_found off;
+#  }
+#
+#  proxy_pass_header Server;
+#
+#  location / {
+#    proxy_set_header Host $host;
+#    proxy_set_header X-Real-IP $remote_addr;
+#    proxy_set_header X-Forward-Proto $scheme;
+#
+#    proxy_http_version 1.1;
+#    proxy_set_header Upgrade $http_upgrade;
+#    proxy_set_header Connection "upgrade";
+#
+#    # increase timeout from 60 seconds to 10 hours
+#    proxy_read_timeout  36000s;
+#
+# use the port from Beego's conf/app.conf
+#    proxy_pass http://127.0.0.1:8000;
+#  }
+#
+#
+#  # lets encrypt setup
+#  location ~ /\.well-known\/acme-challenge {
+#    allow all;
+#    root /srv/www;
+#  }
+#
+#}
+## PLAIN HTTP SETUP END

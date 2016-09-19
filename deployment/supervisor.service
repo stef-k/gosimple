@@ -1,0 +1,14 @@
+# This is a SystemD service file for SupervisorD
+# On Ubuntu Linux systems (and maybe all Debian derivatives)
+# put this at /etc/systemd/system/ directory
+[Unit]
+Description=Supervisord Service
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+User=root
+ExecStart=/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel=" icon" href="/static/img/favicon.png" />
+  <link rel="stylesheet" href="/static/css/style.css">
+  <title>Simple</title>
+</head>
+<body>
+<main class="container">
+  <h1>Simply Welcome</h1>
+  <p>
+    A Go project used as a starting point for web applications.
+    No need to look how to structure the application on every new project,
+    clone simple and start working.
+  </p>
+  <h2>Features & Third party packages</h2>
+
+  <ul>
+    <li>Beego for most of things</li>
+    <li>Gorilla websocket for websockets (currently server to clients only)</li>
+    <li>Configuration files for Nginx, SystemD and Supervisord</li>
+    <li>Starting websocket client models (rooms-clients)</li>
+  </ul>
+
+  <h2>How to use</h2>
+
+  <p>Clone, change name at the following files:</p>
+
+  <ul>
+    <li>Project directory name</li>
+    <li>Project name at conf/app.conf</li>
+    <li>gosimple.com.nginx to your project name/domain (needs to be done inside the config file too)</li>
+    <li>gosimple-supervisor.conf to your project name/domain (needs to be done inside the config file too)</li>
+    <li>gosimple.service to your project name/domain (needs to be done inside the config file too)</li>
+  </ul>
+
+  <p>By doing the above, you have an app ready to run at server boot, Nginx vhost and SSL ready.</p>
+
+  <h3>WebSocket Connection:</h3>
+  <pre id="message"></pre>
+</main>
+<footer class="footer">
+  Copyright &copy 2016 Stef Kariotidis for issues-ideas visit project's page on
+  <a href="https://github.com/stef-k/simple" target="_blank">Github</a>
+</footer>
+<script src="static/js/websocket.js" defer></script>
+</body>
+</html>
