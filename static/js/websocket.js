@@ -116,4 +116,4 @@ GoSimple.main = (function () {
 
   return pub;
 })();
-document.addEventListener('DOMContentLoaded', Simple.main.init);
+document.addEventListener('DOMContentLoaded', GoSimple3.main.init);
