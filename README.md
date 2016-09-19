@@ -10,6 +10,7 @@ with as few as possible server rendered templates from `views` directory.
     * basic models for websocket clients (client, room, pool of rooms)
     * JavaScript WebSocket client
 * Configuration files for Nginx, SupervisorD and SystemD for *nix systems
+* Check `localhost:8080/api/v1/websocket` simple API setup returning number of connected websocket clients and rooms
 
 
 ## Main differences with vanilla Beego
