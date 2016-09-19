@@ -4,4 +4,5 @@ package routers
 func init() {
     SetupBasicRoutes()
 	SetupWebsocketRoutes()
+	SetupV1Api()
 }
