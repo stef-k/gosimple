@@ -52,3 +52,10 @@ pre {
   height: 30px;
   text-align: center;
 }
+
+.component {
+  border-radius: 3px;
+  color: #61DAFB;
+  text-align: center;
+  background: rgba(45, 45, 45, 1)
+}

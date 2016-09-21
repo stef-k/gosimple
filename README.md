@@ -11,7 +11,14 @@ with as few as possible server rendered templates from `views` directory.
     * JavaScript WebSocket client
 * Configuration files for Nginx, SupervisorD and SystemD for *nix systems
 * Check `localhost:8080/api/v1/websocket` simple API setup returning number of connected websocket clients and rooms
+* React ready
 
+### React
+
+1. start the server `bee run`
+2. start webpack watch `npm run watch`
+
+The watcher outputs the `bundle.js` file to `static/js/` directory.
 
 ## Main differences with vanilla Beego
 
@@ -22,8 +29,7 @@ with as few as possible server rendered templates from `views` directory.
 
 ## Todo
 
-* Finish database initialization
-* Integrate a JS front end framework(?), along with Gulp & NPM files(??)
+* better development - production configuration files for the frontend
 
 
 ## Tested on
