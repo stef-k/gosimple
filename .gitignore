@@ -43,6 +43,12 @@ database.db
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
+# Editors
+*.sublime-project
+*.sublime-workspace
+*.iml
+.vscode
+
 # JIRA plugin
 atlassian-ide-plugin.xml
 
@@ -132,3 +138,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+/.gitignore
