@@ -11,11 +11,15 @@ type ApiV1Controller struct {
 	beego.Controller
 }
 
+func (a *ApiV1Controller) URLMapping() {
+	a.Mapping("Websocket", a.Websocket)
+}
 
-// Return connected websocket clients
-func (avc *ApiV1Controller) Get() {
-	avc.Data["json"] = map[string]int{
+// Return the number of all connected clients and rooms
+// @router /websocket/ [get]
+func (a *ApiV1Controller) Websocket() {
+	a.Data["json"] = map[string]int{
 		"connectedClients": models.GetAllClients(),
-	"numberOfRooms": models.GetNumberOfRooms()}
-	avc.ServeJSON()
+		"numberOfRooms": models.GetNumberOfRooms()}
+	a.ServeJSON()
 }
