@@ -16,7 +16,7 @@ func (a *ApiV1Controller) URLMapping() {
 }
 
 // Return the number of all connected clients and rooms
-// @router /websocket/ [get]
+// @router /websocket-status/ [get]
 func (a *ApiV1Controller) Websocket() {
 	a.Data["json"] = map[string]int{
 		"connectedClients": models.GetAllClients(),

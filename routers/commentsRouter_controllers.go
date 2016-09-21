@@ -9,7 +9,7 @@ func init() {
 	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:ApiV1Controller"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:ApiV1Controller"],
 		beego.ControllerComments{
 			Method: "Websocket",
-			Router: `/websocket/`,
+			Router: `/websocket-status/`,
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
