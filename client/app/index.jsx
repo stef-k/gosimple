@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h3>Hello from react</h3>
+        <h3>Hello from react I am a react root component</h3>
         <ExampleComponent/>
       </div>
     )
