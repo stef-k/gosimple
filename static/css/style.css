@@ -53,9 +53,8 @@ pre {
   text-align: center;
 }
 
-.component {
+.react-container {
   border-radius: 3px;
-  color: #61DAFB;
-  text-align: center;
-  background: rgba(45, 45, 45, 1)
+  padding: 15px;
+  background: rgba(30, 30, 30, 0.2)
 }
