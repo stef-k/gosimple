@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/stef-k/gosimple/models"
 	"github.com/astaxie/beego"
+	"net/http"
 )
 
 type WebsocketController struct {
@@ -29,6 +30,9 @@ func (wc *WebsocketController) Get() {
 	var upgrader = websocket.Upgrader{
 		ReadBufferSize:     1024,
 		WriteBufferSize:    1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
 	}
 
 	// Upgrade
