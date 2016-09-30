@@ -10,9 +10,8 @@ var GoSimple = GoSimple || {};
  */
 GoSimple.main = (function () {
   // private variables
-  var debug = true;
   var websocketSupported = false;
-  var serviceUrl = 'localhost:8080';
+  var serviceUrl = 'localhost:' + GoSimple.vars.port;
   var connectTo = 'ws://' + serviceUrl + '/websocket';
   var socket = null;
 
@@ -23,14 +22,7 @@ GoSimple.main = (function () {
   var pub = {};
   pub.connected = false;
 
-  self.debug = function (msg) {
-    if (debug) {
-      console.debug(msg);
-    }
-  };
-
   pub.init = function () {
-    self.debug('Simple init');
     self.check();
     self.connect();
   };
@@ -96,22 +88,7 @@ GoSimple.main = (function () {
    * Handle incoming messages
    */
   self.receive = function (e) {
-    // print on page
-    var el = document.querySelector('#message');
-    el.textContent = e.data;
-    var msg = JSON.parse(e.data);
-    self.debug(msg);
-    if (msg.hasOwnProperty('Data')) {
-      if (msg.Data.hasOwnProperty('message')) {
-        console.log('got message: ', msg.Data.message);
-      } else if (msg.Data.hasOwnProperty('cmd')) {
-        console.log('got command: ', msg.Data.cmd);
-        if (msg.Data.hasOwnProperty('what')) {
-          console.log('what: ', msg.Data.what);
-        }
-      }
-
-    }
+    console.log(e.data);
   };
 
   return pub;

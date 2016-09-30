@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 // Room Pool containing all rooms currently active
 var RoomPool = make([] *Room, 0)
 
@@ -40,6 +42,11 @@ func RemoveClient(c *Client)  {
 				room.DeleteClient(c)
 				if room.ClientCount() == 0 {
 					RemoveRoom(room)
+					// client side debug, on every client disconnection, broadcast server status
+					PoolBroadcast(NewMessage(map[string]string{
+						"connectedClients": fmt.Sprintf("%v", GetAllClients()),
+						"numberOfRooms": fmt.Sprintf("%v", GetNumberOfRooms()),
+					}))
 				}
 			}
 		}

@@ -6,6 +6,7 @@ import (
 	"github.com/stef-k/gosimple/models"
 	"github.com/astaxie/beego"
 	"net/http"
+	"fmt"
 )
 
 type WebsocketController struct {
@@ -68,6 +69,12 @@ func (wc *WebsocketController) Get() {
 	client.SendMessage(models.NewMessage(map[string]string{
 		"1" : "Hello websocket client",
 		"2" : "You are now connected",
+	}))
+
+	// client side debug, on every client connection, broadcast server status
+	models.PoolBroadcast(models.NewMessage(map[string]string{
+		"connectedClients": fmt.Sprintf("%v", models.GetAllClients()),
+		"numberOfRooms": fmt.Sprintf("%v", models.GetNumberOfRooms()),
 	}))
 
 	// serve something so beego does not complain for missing template...
