@@ -29,7 +29,7 @@ The watcher outputs the `bundle.js` file to `static/js/` directory.
 
 ## Todo
 
-* better development - production configuration files for the frontend
+* development - production configuration files for the frontend
 
 
 ## Tested on

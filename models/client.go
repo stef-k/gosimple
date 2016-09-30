@@ -5,6 +5,7 @@ import (
 	"time"
 	"fmt"
 	"github.com/astaxie/beego"
+	"sync"
 )
 
 // Client represents an entity connected using a websocket
@@ -60,7 +61,17 @@ func NewClient(ws *websocket.Conn, room string) *Client {
 			// Connection check
 			_, _, err := client.Connection.ReadMessage()
 			if err != nil {
-				beego.Warn("Sock error")
+				if err.Error() == "websocket: close 1001 (going away)" {
+					beego.Info("client left")
+					RemoveClient(client)
+					// client side debug, on every client disconnection, broadcast server status
+					PoolBroadcast(NewMessage(map[string]string{
+						"connectedClients": fmt.Sprintf("%v", GetAllClients()),
+						"numberOfRooms": fmt.Sprintf("%v", GetNumberOfRooms()),
+					}))
+				} else {
+					beego.Warn("Sock error ", err)
+				}
 				break
 			}
 		}
@@ -73,5 +84,8 @@ func NewClient(ws *websocket.Conn, room string) *Client {
 
 // SendMessage sends a message to a connected websocket client
 func (c Client) SendMessage(msg Message) {
+	m := &sync.Mutex{}
+	m.Lock()
+	defer m.Unlock()
 	c.Connection.WriteJSON(msg)
 }

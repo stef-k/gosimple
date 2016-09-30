@@ -8,6 +8,12 @@
   <title>GoSimple</title>
 </head>
 <body>
+<script>
+  var GoSimple = GoSimple || {};
+  GoSimple.vars = GoSimple.vars || {};
+  GoSimple.vars.address = '{{ .Address }}';
+  GoSimple.vars.port = '{{ .Port }}';
+</script>
 <main class="container">
   <h1>Simply Welcome</h1>
   <p>
@@ -45,15 +51,12 @@
   </ul>
 
   <p>By doing the above, you have an app ready to run at server boot, Nginx vhost and SSL ready.</p>
-
-  <h3>WebSocket Connection:</h3>
-  <pre id="message"></pre>
 </main>
 <footer class="footer">
   Copyright &copy 2016 Stef Kariotidis for issues-ideas visit project's page on
   <a href="https://github.com/stef-k/gosimple" target="_blank">Github</a>
 </footer>
-<script src="static/js/websocket.js" defer></script>
 <script type="text/javascript" src="static/js/bundle.js"></script></body>
+<!--<script src="static/js/websocket.js"></script>-->
 </body>
 </html>
