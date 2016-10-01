@@ -34,7 +34,7 @@ gulp.task('cleancss', function() {
     '../static/**/style.min.css',
     './src/**/style.css',
     './src/**/style.min.css'
-  ]);
+  ], {force: true});
 });
 /**
  * Compiles SASS to CSS from:
@@ -121,7 +121,7 @@ gulp.task('generateCssMaps', ['minifycss'], function(){
  * This is step 6 (final step)
  */
 gulp.task('cleantmps', ['generateCssMaps'], function() {
-  return del.sync(['./src/**/style.css','./src/**/main.css']);
+  return del.sync(['./src/**/style.css','./src/**/main.css'], {force: true});
 });
 /*----------------------------------------------------------------------------*/
 // Watchers
