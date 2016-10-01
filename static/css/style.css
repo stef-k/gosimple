@@ -18,11 +18,11 @@ body {
 
 h1, h2, h3 {
   color: #85144b;
-  margin: 1.4rem auto;
+  margin: 1rem auto;
 }
 
 p {
-  margin: 2rem 1rem 1rem 1rem;
+  margin: 5px;
 }
 
 a, a:visited {
@@ -66,5 +66,5 @@ pre {
   max-height: 320px;
   border-radius: 3px;
   padding: 15px;
-  background: #444444;
+  background: rgba(30, 30, 30, 0.1);
 }

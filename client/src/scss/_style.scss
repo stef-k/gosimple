@@ -17,10 +17,10 @@ body {
 }
 h1, h2, h3 {
   color: $red;
-  margin: 1.4rem auto;
+  margin: 1rem auto;
 }
 p{
-  margin: 2rem 1rem 1rem 1rem;
+  margin: 5px;
 }
 a, a:visited {
   color: $red;
@@ -60,6 +60,6 @@ pre {
   max-height:320px;
   border-radius: 3px;
   padding: 15px;
-  background: $light-dark;
+  background: $transparent-dark;
 }
 
