@@ -8,17 +8,19 @@ with as few as possible server rendered templates from `views` directory.
 
 * WebSocket integration with
     * basic models for websocket clients (client, room, pool of rooms)
-    * JavaScript WebSocket client
+    * WebSocket React component
 * Configuration files for Nginx, SupervisorD and SystemD for *nix systems
 * Check `localhost:8080/api/v1/websocket` simple API setup returning number of connected websocket clients and rooms
 * React ready
 
-### React
+### How to start working
 
-1. start the server `bee run`
-2. start webpack watch `npm run watch`
+1. on one terminal tab start the server `bee run`
+2. on another one start webpack and gulp watchers with `npm run alldev`
 
-The watcher outputs the `bundle.js` file to `static/js/` directory.
+Webpack watcher outputs the `bundle.js` file to `static/js/` directory.
+Gulp watcher outpus `style.css` `style.min.css` and `style.css.min.map` 
+to `static/css` directory.
 
 ## Main differences with vanilla Beego
 
@@ -38,4 +40,15 @@ The watcher outputs the `bundle.js` file to `static/js/` directory.
  DISTRIB_RELEASE=16.04
  DISTRIB_CODENAME=xenial
  DISTRIB_DESCRIPTION="Ubuntu 16.04.1 LTS"
+```
+
+```
+| ___ \
+| |_/ /  ___   ___
+| ___ \ / _ \ / _ \
+| |_/ /|  __/|  __/
+\____/  \___| \___| v1.5.1
+
+├── Beego     : 1.7.0
+├── GoVersion : go1.7
 ```
