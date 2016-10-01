@@ -4,8 +4,9 @@
   "description": "Front end for the Beego back end application",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack --progress --colors --watch",
-    "prod": "webpack --progress --colors -p"
+    "webpackw": "webpack --colors --watch",
+    "webpackp": "webpack --colors -p",
+    "alldev": "concurrently --kill-others 'webpack --colors --watch' 'gulp watch'"
   },
   "author": "stef kariotidis",
   "license": "ISC",
@@ -15,13 +16,17 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "css-loader": "^0.25.0",
+    "concurrently": "^3.0.0",
+    "del": "latest",
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
     "html-webpack-plugin": "^2.22.0",
-    "node-sass": "^3.10.1",
-    "sass-loader": "^4.0.2",
-    "style-loader": "^0.13.1",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.1"
+    "webpack": "^1.13.2"
   },
   "dependencies": {
     "history": "^4.2.0",
