@@ -1,0 +1,10 @@
+Welcome to {{ .CompanyName }}!
+
+You have successfully registered with us.
+
+Sincerely,
+{{ .CompanyName }}
+
+WWW:    {{ .AppWebsite }}
+EMAIL:  {{ .CompanyMail }}
+TEL:    {{ .CompanyTel }}

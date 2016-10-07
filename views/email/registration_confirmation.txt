@@ -1,0 +1,15 @@
+Hello from {{ .CompanyName }}!
+
+You are receiving this e-mail in order to confirm your e-mail address
+for registering with us.
+
+Please visit the following link in order to complete the registration process:
+
+{{ .ConfirmationLink }}
+
+Sincerely,
+{{ .CompanyName }}
+
+WWW:    {{ .AppWebsite }}
+EMAIL:  {{ .CompanyMail }}
+TEL:    {{ .CompanyTel }}
