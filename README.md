@@ -12,6 +12,7 @@ with as few as possible server rendered templates from `views` directory.
 * Configuration files for Nginx, SupervisorD and SystemD for *nix systems
 * Check `localhost:8080/api/v1/websocket` simple API setup returning number of connected websocket clients and rooms
 * React ready
+* Email sending with or without templates
 
 ### How to start working
 
