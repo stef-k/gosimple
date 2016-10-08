@@ -24,6 +24,7 @@
     "gulp-concat": "latest",
     "gulp-rename": "latest",
     "gulp-sass": "latest",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "latest",
     "html-webpack-plugin": "^2.22.0",
     "webpack": "^1.13.2"
