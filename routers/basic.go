@@ -9,4 +9,6 @@ import (
 
 func SetupBasicRoutes () {
 	beego.Router("/", &controllers.MainController{})
+	// include all registration related controllers
+	beego.Include(&controllers.RegistrationController{})
 }

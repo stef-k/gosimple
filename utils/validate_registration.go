@@ -8,30 +8,34 @@ import (
 )
 
 type Registration struct {
-	Username   string
-	Password   string
-	PasswordRe string
-	Email      string
+	Username   string   `json:"username"`
+	Password   string   `json:"password"`
+	PasswordRe string   `json:"passwordRe"`
+	Email      string   `json:"email"`
 }
 
-var config = make(map[string]string)
+var minUsername = 5
+var minPassword = 6
+var passwordContainsCaps = true
+var passwordContainsNumbers = true
+var passwordContainsSymbols = true
 
 // load registration configuration
 func init() {
-	config["minUsername"], _ = beego.AppConfig.Int("registration::min_username")
-	config["minPassword"], _ = beego.AppConfig.Int("registration::min_password")
-	config["passwordContainsCaps"], _ = beego.AppConfig.Bool("registration::password_contain_caps")
-	config["passwordContainsNumbers"], _ = beego.AppConfig.Bool("registration::password_contain_numbers")
-	config["passwordContainsSymbols"], _ = beego.AppConfig.Bool("registration::password_contain_symbols")
+	minUsername, _ = beego.AppConfig.Int("registration::min_username")
+	minPassword, _ = beego.AppConfig.Int("registration::min_password")
+	passwordContainsCaps, _ = beego.AppConfig.Bool("registration::password_contain_caps")
+	passwordContainsNumbers, _ = beego.AppConfig.Bool("registration::password_contain_numbers")
+	passwordContainsSymbols, _ = beego.AppConfig.Bool("registration::password_contain_symbols")
 }
 
 func usernameIsValid(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
-	if config["minUsername"] <= len(registration.Username) {
+	if len(registration.Username) < minUsername {
 		feedback = append(feedback,
-			fmt.Sprintf("Username must be at least %v characters long", config["minUsername"]))
+			fmt.Sprintf("Username must be at least %v characters long", minUsername))
 	}
 
 	return feedback
@@ -41,14 +45,12 @@ func passwordIsValid(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
-	if config["minPassword"] < len(registration.Password) {
-		return false
-	} else {
+	if minPassword > len(registration.Password) {
 		feedback = append(feedback,
-			fmt.Sprintf("Password length must be at least %v characters long", config["minPassword"]))
+			fmt.Sprintf("Password length must be at least %v characters long", minPassword))
 	}
 
-	if config["passwordContainsCaps"] {
+	if passwordContainsCaps {
 		hasCaps, _ := regexp.MatchString(".*[A-Z].*", registration.Password)
 		if !hasCaps {
 			feedback = append(feedback,
@@ -56,16 +58,16 @@ func passwordIsValid(registration *Registration) []string {
 		}
 	}
 
-	if config["passwordContainsNumbers"] {
-		hasCaps, _ := regexp.MatchString(".*[0-9].*", registration.Password)
-		if !hasCaps {
+	if passwordContainsNumbers {
+		hasNumbers, _ := regexp.MatchString(".*[0-9].*", registration.Password)
+		if !hasNumbers {
 			feedback = append(feedback,
 				fmt.Sprintf("Password must contain at least one number"))
 		}
 	}
 
-	if config["passwordContainsSymbols"] {
-		hasSymbol := true
+	if passwordContainsSymbols {
+		hasSymbol := false
 		for _, char := range registration.Password {
 			if unicode.IsPunct(char) || unicode.IsSymbol(char) {
 				hasSymbol = true
@@ -77,13 +79,17 @@ func passwordIsValid(registration *Registration) []string {
 		}
 	}
 
+	if registration.Password != registration.PasswordRe {
+		feedback = append(feedback, "Password confirmation does not match")
+	}
+
 	return feedback
 }
 
 func mailIsValid(registration *Registration) []string {
 
 	feedback := make([]string, 0)
-	validMail, _ := regexp.MatchString(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`, registration.Password)
+	validMail, _ := regexp.MatchString(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`, registration.Email)
 	if !validMail {
 		feedback = append(feedback,
 			fmt.Sprintf("The mail is not valid"))
@@ -97,9 +103,9 @@ func ValidateRegistration(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
-	feedback = append(feedback, usernameIsValid(registration))
-	feedback = append(feedback, passwordIsValid(registration))
-	feedback = append(feedback, mailIsValid(registration))
+	feedback = append(feedback, usernameIsValid(registration)...)
+	feedback = append(feedback, passwordIsValid(registration)...)
+	feedback = append(feedback, mailIsValid(registration)...)
 
 	return feedback
 }

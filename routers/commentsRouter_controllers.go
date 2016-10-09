@@ -13,4 +13,11 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:RegistrationController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:RegistrationController"],
+		beego.ControllerComments{
+			Method: "Register",
+			Router: `/register/`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
 }
