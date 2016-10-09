@@ -3,6 +3,8 @@ package utils
 import (
 	"github.com/astaxie/beego"
 	"fmt"
+	"regexp"
+	"unicode"
 )
 
 type Registration struct {
@@ -23,14 +25,19 @@ func init() {
 	config["passwordContainsSymbols"], _ = beego.AppConfig.Bool("registration::password_contain_symbols")
 }
 
-func usernameIsValid(registration *Registration) (bool, []string) {
+func usernameIsValid(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
-	return config["minUsername"] >= len(registration.Username), feedback
+	if config["minUsername"] <= len(registration.Username) {
+		feedback = append(feedback,
+			fmt.Sprintf("Username must be at least %v characters long", config["minUsername"]))
+	}
+
+	return feedback
 }
 
-func passwordIsValid(registration *Registration) (bool, []string) {
+func passwordIsValid(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
@@ -41,22 +48,58 @@ func passwordIsValid(registration *Registration) (bool, []string) {
 			fmt.Sprintf("Password length must be at least %v characters long", config["minPassword"]))
 	}
 
-	return true, feedback
+	if config["passwordContainsCaps"] {
+		hasCaps, _ := regexp.MatchString(".*[A-Z].*", registration.Password)
+		if !hasCaps {
+			feedback = append(feedback,
+				fmt.Sprintf("Password must contain at least one capital letter"))
+		}
+	}
+
+	if config["passwordContainsNumbers"] {
+		hasCaps, _ := regexp.MatchString(".*[0-9].*", registration.Password)
+		if !hasCaps {
+			feedback = append(feedback,
+				fmt.Sprintf("Password must contain at least one number"))
+		}
+	}
+
+	if config["passwordContainsSymbols"] {
+		hasSymbol := true
+		for _, char := range registration.Password {
+			if unicode.IsPunct(char) || unicode.IsSymbol(char) {
+				hasSymbol = true
+			}
+		}
+		if !hasSymbol {
+			feedback = append(feedback,
+				fmt.Sprintf("Password must contain at least one symbol"))
+		}
+	}
+
+	return feedback
 }
 
-func mailIsValid(registration *Registration) (bool, []string) {
+func mailIsValid(registration *Registration) []string {
+
+	feedback := make([]string, 0)
+	validMail, _ := regexp.MatchString(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`, registration.Password)
+	if !validMail {
+		feedback = append(feedback,
+			fmt.Sprintf("The mail is not valid"))
+	}
+	return feedback
+}
+
+// ValidateRegistration validates registration fields, returns a slice of strings
+// containing errors if validation fails else the slice should be empty.
+func ValidateRegistration(registration *Registration) []string {
 
 	feedback := make([]string, 0)
 
-	return false, feedback
-}
+	feedback = append(feedback, usernameIsValid(registration))
+	feedback = append(feedback, passwordIsValid(registration))
+	feedback = append(feedback, mailIsValid(registration))
 
-// ValidateRegistration validates registration fields, returns true if the fields
-// pass the validation, false otherwise. Additionally returns a slice of strings
-// containing errors if validation fails
-func ValidateRegistration(registration *Registration) (bool, []string) {
-
-	feedback := make([]string, 0)
-
-	return false, feedback
+	return feedback
 }
