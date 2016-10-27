@@ -8,7 +8,7 @@ import (
 func init() {
 	// setup logger
 	beego.SetLogger("multifile", `{"filename":"logs/app.log", "maxdays":30,
-	"separate":["emergency", "alert", "critical", "error", "warning", "notice", "info", "debug"]}`)
+	"separate":["critical", "error", "warning", "info", "debug"]}`)
 }
 
 func main() {
