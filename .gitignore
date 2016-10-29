@@ -3,7 +3,8 @@
 # Project specific
 logs/*
 gosimple
-database.db
+# covers database.db and database.db-journal SQLite temp files
+database.db*
 *.tmp
 
 # Js - Node - Npm, etc
