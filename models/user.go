@@ -77,6 +77,23 @@ func GetUserByEmail(email string) *User {
 	}
 }
 
+// Authenticate authenticates a User by his username or email and his password
+func AuthenticateUser(usernameOrEmail, password string) bool {
+	user := GetUserByUsername(usernameOrEmail)
+
+	// if user is found by his username check his password
+	if (User{}) != *user {
+		return utils.CheckPassword(password, user.Password)
+	} else {
+		user := GetUserByEmail(usernameOrEmail)
+		if (User{}) != *user {
+			return utils.CheckPassword(password, user.Password)
+		} else {
+			return false
+		}
+	}
+}
+
 // AllUsers return all stored users from the database
 func AllUsers() []*User {
 	var users []*User
