@@ -13,6 +13,8 @@ func init() {
 	bootstrap.SetupSession()
 	// setup XSRF
 	bootstrap.SetupXSRF()
+	// setup some opinionated defaults
+	bootstrap.SetupDefaults()
 }
 
 func main() {
