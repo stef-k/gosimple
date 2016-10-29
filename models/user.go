@@ -15,6 +15,7 @@ type User struct {
 	EmailConfirmed   bool
 	ConfirmationCode string // used during registration confirmation TODO move to sepparate table and tight up security
 	Created          time.Time `orm:"auto_now_add;type(datetime)"`
+	LastLogin        time.Time `orm:"type(datetime)"`
                             // use this to set different user types, such as Admin, Staff, User, etc
                             // for more complex situtations a Roles and a Roles_Permissions models could be more of help
 	Role             string
