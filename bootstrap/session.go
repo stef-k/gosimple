@@ -25,7 +25,7 @@ func SetupSession() {
 			beego.BConfig.WebConfig.Session.SessionName = sessionName
 
 			// session lifetime
-			sessionLifetime := beego.AppConfig.DefaultInt("session::sessionLifetime", 3600)
+			sessionLifetime := beego.AppConfig.DefaultInt64("session::sessionLifetime", 3600)
 			beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = sessionLifetime
 			// cookie lifetime
 			sessionCookieLifetime := beego.AppConfig.DefaultInt("session::sessionCookieLifetime", 0)
