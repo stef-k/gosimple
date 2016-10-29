@@ -11,4 +11,8 @@ func SetupBasicRoutes () {
 	beego.Router("/", &controllers.MainController{})
 	// include all registration related controllers
 	beego.Include(&controllers.RegistrationController{})
+	// JWT route & controller setup if disabled the route does not exist
+	if beego.AppConfig.DefaultBool("jwt::enabled", true) {
+		beego.Include(&controllers.TokenController{})
+	}
 }

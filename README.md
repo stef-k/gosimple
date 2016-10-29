@@ -3,6 +3,8 @@
 A Go/Beego project used as a starting point for web applications. 
 The main goal is to use a JavaScript framework to implement application's views,
 with as few as possible server rendered templates from `views` directory.
+If you want to work with Beego's server side static templates, 
+just remove the `client` directory and modify the `index.html` template.
 
 ## Features
 
@@ -13,6 +15,10 @@ with as few as possible server rendered templates from `views` directory.
 * Check `localhost:8080/api/v1/websocket` simple API setup returning number of connected websocket clients and rooms
 * React ready
 * Email sending with or without templates
+* REST API ready
+* JWT Token generation ready
+* Session ready for classic login/logout handling
+* User model to start with
 
 ### How to start working
 
