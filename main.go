@@ -11,6 +11,8 @@ func init() {
 	bootstrap.SetupLogger()
 	// setup Session
 	bootstrap.SetupSession()
+	// setup XSRF
+	bootstrap.SetupXSRF()
 }
 
 func main() {
