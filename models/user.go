@@ -78,18 +78,18 @@ func GetUserByEmail(email string) *User {
 }
 
 // Authenticate authenticates a User by his username or email and his password
-func AuthenticateUser(usernameOrEmail, password string) bool {
+func AuthenticateUser(usernameOrEmail, password string) (bool, User){
 	user := GetUserByUsername(usernameOrEmail)
 
 	// if user is found by his username check his password
 	if (User{}) != *user {
-		return utils.CheckPassword(password, user.Password)
+		return utils.CheckPassword(password, user.Password), *user
 	} else {
 		user := GetUserByEmail(usernameOrEmail)
 		if (User{}) != *user {
-			return utils.CheckPassword(password, user.Password)
+			return utils.CheckPassword(password, user.Password), *user
 		} else {
-			return false
+			return false, User{}
 		}
 	}
 }
