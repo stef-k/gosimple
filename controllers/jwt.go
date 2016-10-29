@@ -2,14 +2,21 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"encoding/json"
+	"github.com/stef-k/gosimple/models"
 	"github.com/dgrijalva/jwt-go"
 	"time"
-	"github.com/stef-k/gosimple/models"
-	"encoding/json"
 )
 
 type TokenController struct {
 	beego.Controller
+}
+
+// CustomClaims a structure to add custom fields to JWT's claim
+type CustomClaims struct {
+	Username string `json:"username"`
+	Role     string `json:"role"`
+	jwt.StandardClaims
 }
 
 type Parameters struct {
@@ -34,22 +41,57 @@ func (tc *TokenController) GetToken() {
 	}
 
 	// authenticate user
-	if models.AuthenticateUser(params.Username, params.Password) {
+	isAuthenticated, user := models.AuthenticateUser(params.Username, params.Password)
+	if isAuthenticated {
+
 		expiresIn := beego.AppConfig.DefaultInt("jwt::expiresIn", 48)
 
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"username" : params.Username,
-			"expires" : time.Now().Add(time.Hour * time.Duration(expiresIn)).Unix(),
-		})
+		claims := CustomClaims{
+			user.Username,
+			user.Role,
+
+			jwt.StandardClaims{
+				ExpiresAt: time.Now().Add(time.Hour * time.Duration(expiresIn)).Unix(),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 		// signing key
 		key := beego.AppConfig.String("jwt::key")
 
-		signedString, _ := token.SignedString([]byte(key))
-		tc.Data["json"] = signedString
+		signedString, err := token.SignedString([]byte(key))
+
+		if err == nil {
+			tc.Data["json"] = signedString
+		} else {
+			tc.Data["json"] = "Could not generate JWT token"
+		}
+
 	} else {
 		tc.Data["json"] = "Authentication Failed"
 	}
 
 	tc.ServeJSON()
+}
+
+
+// ValidateToken validates a JWT token
+// Returns True and the Claim value uppon successful validation,
+// false & empty CustomClaim otherwise
+// NOTE: its uppon to you to check if the token is expired.
+func ValidateToken(tokenString string) (bool, *CustomClaims) {
+
+	signingKey := beego.AppConfig.String("jwt::key")
+
+	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(signingKey), nil
+	})
+
+	if err != nil {
+		return false, &CustomClaims{}
+	}
+
+	return token.Valid, token.Claims.(*CustomClaims)
+
 }

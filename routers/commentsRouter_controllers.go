@@ -23,8 +23,8 @@ func init() {
 	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:TokenController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:TokenController"],
 		beego.ControllerComments{
 			Method: "GetToken",
-			Router: `/get-token/`,
-			AllowHTTPMethods: []string{"get"},
+			Router: `/api/get-token/`,
+			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
 }
