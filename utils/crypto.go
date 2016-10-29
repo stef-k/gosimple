@@ -15,8 +15,8 @@ func GeneratePassword(password string) (string, error) {
 
 // CheckPassword compares a plain password with the equivelant hashed,
 // returns true if they match, false otherwise
-func CheckPassword(plain, hashed []byte) bool {
-	if err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(plain)); err == nil {
+func CheckPassword(plain, storedPasswordInDatabase string) bool {
+	if err := bcrypt.CompareHashAndPassword([]byte(storedPasswordInDatabase), []byte(plain)); err == nil {
 		return true
 	} else {
 		return false
