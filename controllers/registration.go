@@ -13,7 +13,7 @@ type RegistrationController struct {
 // @Title register
 // @Description register a new user
 // @Success 200 {string}
-// @Failure 403 body is empty
+// @Failure 400 body is empty
 // @router /register/ [post]
 func (rc *RegistrationController) Register() {
 	registrationIsOpen, _ := beego.AppConfig.Bool("registration::is_open")
@@ -28,6 +28,8 @@ func (rc *RegistrationController) Register() {
 			// register the user and return a success message
 			rc.Data["json"] = map[string]string{"response": "success"}
 		}
+	} else {
+		rc.Data["json"] = "Registration is closed."
 	}
 	rc.ServeJSON()
 }
