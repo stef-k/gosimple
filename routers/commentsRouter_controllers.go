@@ -13,6 +13,20 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"],
+		beego.ControllerComments{
+			Method: "ShowLoginTemplate",
+			Router: `/login/`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"],
+		beego.ControllerComments{
+			Method: "Login",
+			Router: `/login/`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:RegistrationController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:RegistrationController"],
 		beego.ControllerComments{
 			Method: "Register",
