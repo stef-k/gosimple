@@ -9,12 +9,12 @@ import (
 func init() {
 	// setup Logger
 	bootstrap.SetupLogger()
+	// setup some opinionated defaults
+	bootstrap.SetupDefaults()
 	// setup Session
 	bootstrap.SetupSession()
 	// setup XSRF
 	bootstrap.SetupXSRF()
-	// setup some opinionated defaults
-	bootstrap.SetupDefaults()
 }
 
 func main() {
