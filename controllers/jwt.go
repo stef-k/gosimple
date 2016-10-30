@@ -6,6 +6,8 @@ import (
 	"github.com/stef-k/gosimple/models"
 	"github.com/dgrijalva/jwt-go"
 	"time"
+	"github.com/stef-k/gosimple/limiter"
+	"fmt"
 )
 
 type TokenController struct {
@@ -40,6 +42,13 @@ func (tc *TokenController) GetToken() {
 		tc.Abort("400")
 	}
 
+	limiterEnabled := beego.AppConfig.DefaultBool("limiter::loginLimiterEnabled", true)
+	incomingIP := tc.Ctx.Input.IP()
+	lockMinutes, _ := beego.AppConfig.Int("limiter::loginLockMinutes")
+	if limiter.LoginLimitReached(incomingIP) && limiterEnabled {
+		tc.Data["json"] = "Login limit has been reached, please wait " + fmt.Sprintf("%v", lockMinutes) + " minutes to retry."
+		tc.ServeJSON()
+	}
 	// authenticate user
 	isAuthenticated, user, error := models.AuthenticateUser(params.Username, params.Password)
 	if isAuthenticated {
@@ -69,7 +78,14 @@ func (tc *TokenController) GetToken() {
 		}
 
 	} else {
-		tc.Data["json"] = "Authentication Failed, " + error
+		// with rate limiter enabled
+		if limiterEnabled {
+			_, attempts, _ := limiter.RecordLoginAttempt(params.Username, incomingIP)
+			tc.Data["json"] = "Login failed, please try again. Reason: " + error + " Remaining attempts: " + fmt.Sprintf("%v", attempts)
+		} else {
+			// with rate limiter disabled
+			tc.Data["json"] = "Login failed, please try again. Reason: " + error
+		}
 	}
 
 	tc.ServeJSON()
