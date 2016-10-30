@@ -19,7 +19,7 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
-type Parameters struct {
+type parameters struct {
 	Username string
 	Password string
 }
@@ -33,7 +33,7 @@ type Parameters struct {
 // @router /api/get-token/ [post]
 func (tc *TokenController) GetToken() {
 
-	var params Parameters
+	var params parameters
 	json.Unmarshal(tc.Ctx.Input.RequestBody, &params)
 
 	if params.Username == "" || params.Password == "" {
