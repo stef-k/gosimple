@@ -44,7 +44,7 @@ func (tc *TokenController) GetToken() {
 	isAuthenticated, user, error := models.AuthenticateUser(params.Username, params.Password)
 	if isAuthenticated {
 
-		expiresIn := beego.AppConfig.DefaultInt("jwt::expiresIn", 48)
+		expiresIn := beego.AppConfig.DefaultInt("jwt::expiresIn", 12)
 
 		claims := CustomClaims{
 			user.Username,
