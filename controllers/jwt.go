@@ -41,7 +41,7 @@ func (tc *TokenController) GetToken() {
 	}
 
 	// authenticate user
-	isAuthenticated, user := models.AuthenticateUser(params.Username, params.Password)
+	isAuthenticated, user, error := models.AuthenticateUser(params.Username, params.Password)
 	if isAuthenticated {
 
 		expiresIn := beego.AppConfig.DefaultInt("jwt::expiresIn", 48)
@@ -69,7 +69,7 @@ func (tc *TokenController) GetToken() {
 		}
 
 	} else {
-		tc.Data["json"] = "Authentication Failed"
+		tc.Data["json"] = "Authentication Failed, " + error
 	}
 
 	tc.ServeJSON()
