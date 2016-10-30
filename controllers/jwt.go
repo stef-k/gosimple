@@ -33,7 +33,7 @@ type jwtParameters struct {
 // @router /api/get-token/ [post]
 func (tc *TokenController) GetToken() {
 
-	var params parameters
+	var params jwtParameters
 	json.Unmarshal(tc.Ctx.Input.RequestBody, &params)
 
 	if params.Username == "" || params.Password == "" {
