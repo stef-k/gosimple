@@ -78,18 +78,29 @@ func GetUserByEmail(email string) *User {
 }
 
 // Authenticate authenticates a User by his username or email and his password
-func AuthenticateUser(usernameOrEmail, password string) (bool, User){
+// Uppon successful authentication returns true, the User object and an empty string
+// When unsuccessful, returns false, empty User object and a string with the error message
+func AuthenticateUser(usernameOrEmail, password string) (bool, User, string){
 	user := GetUserByUsername(usernameOrEmail)
-
+	var error string
 	// if user is found by his username check his password
 	if (User{}) != *user {
-		return utils.CheckPassword(password, user.Password), *user
+		correctPwd := utils.CheckPassword(password, user.Password)
+		if !correctPwd {
+			error = "Incorrect password."
+		}
+		return correctPwd, *user, error
 	} else {
 		user := GetUserByEmail(usernameOrEmail)
 		if (User{}) != *user {
-			return utils.CheckPassword(password, user.Password), *user
+			correctPwd := utils.CheckPassword(password, user.Password)
+			if !correctPwd {
+				error = "Incorrect password."
+			}
+			return correctPwd, *user, error
 		} else {
-			return false, User{}
+			error = "Could not find a user with the secified username or password."
+			return false, User{}, error
 		}
 	}
 }
