@@ -5,9 +5,13 @@ import (
 	"github.com/muesli/cache2go"
 )
 
+func LoginLocked()  {
+	
+}
+
 // InspectLoginAttempt records and checks if a login limit has been reached
 // Returns true if a limit has been reached, false otherwise and the remaining attetmps
-func InspectLoginAttempt(username string, incomingIP string) (bool, int, time.Time) {
+func RecordLoginAttempt(username string, incomingIP string) (bool, int, time.Time) {
 	loginCache := cache2go.Cache("loginAttempt")
 	if !loginCache.Exists(incomingIP) {
 		var entry loginAttempt
