@@ -19,6 +19,7 @@ just remove the `client` directory and modify the `index.html` template.
 * JWT Token generation ready
 * Session ready for classic login/logout handling
 * User model to start with
+* Login rate limiter for failed logins protection
 
 ### How to start working
 
