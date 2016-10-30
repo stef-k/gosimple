@@ -19,7 +19,7 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
-type parameters struct {
+type jwtParameters struct {
 	Username string
 	Password string
 }
