@@ -28,10 +28,16 @@
     <li>Gorilla websocket for websockets (currently server to clients only)</li>
     <li>Configuration files for Nginx, SystemD and Supervisord</li>
     <li>Starting websocket client models (rooms-clients)</li>
+    <li>Login and API rate limiting</li>
   </ul>
 
-  <p>You can also check <a href="http://localhost:8080/api/v1/websocket-status" target="_blank">http://localhost:8080/api/v1/websocket</a>
-  a small API route starting point</p>
+  For full feature list check project's page at <a href="https://github.com/stef-k/gosimple" target="_blank">Github</a>
+
+  <p>You can also check the following API endpoints:<br>
+    <a href="http://localhost:8080/api/v1/websocket-status" target="_blank">http://localhost:8080/api/v1/websocket</a>
+  a small API endpoint showing current connected websocket clients</p> <br>
+  <a href="http://localhost:8080/api/v1/rate-limiter" target="_blank">http://localhost:8080/api/v1/rate-limiter</a>
+  a small API endpoint  showing how rate limiting works (refresh the page to reach the limit)</p>
 
   <h2>React ready</h2>
 
@@ -56,7 +62,7 @@
   Copyright &copy 2016 Stef Kariotidis for issues-ideas visit project's page on
   <a href="https://github.com/stef-k/gosimple" target="_blank">Github</a>
 </footer>
-<script type="text/javascript" src="static/js/bundle.js"></script></body>
+<script type="text/javascript" src="static/js/bundle.js"></script>
 <!--<script src="static/js/websocket.js"></script>-->
 </body>
 </html>

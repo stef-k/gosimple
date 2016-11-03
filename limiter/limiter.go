@@ -21,15 +21,31 @@ type loginAttempt struct {
 	Timestamp      time.Time
 }
 
+type apiRequest struct {
+	CurrentRequests int
+}
+
 var (
 	loginAttempts int
 	loginLockMinutes int
 	loginLimiterEnabled bool
 	loginCache cache2go.CacheTable
+
+	apiLimiterEnabled bool
+	apiRequestsLimit int
+	limitingTimeUnit string
+	perTime int
+	apiCache cache2go.CacheTable
 )
 
 func init() {
-	loginLimiterEnabled = beego.AppConfig.DefaultBool("loginLimiterEnabled", true)
-	loginAttempts = beego.AppConfig.DefaultInt("loginAttempts", 5)
-	loginLockMinutes = beego.AppConfig.DefaultInt("loginLockMinutes", 1)
+	// login limiter
+	loginLimiterEnabled = beego.AppConfig.DefaultBool("limiter::loginLimiterEnabled", true)
+	loginAttempts = beego.AppConfig.DefaultInt("limiter::loginAttempts", 5)
+	loginLockMinutes = beego.AppConfig.DefaultInt("limiter::loginLockMinutes", 1)
+	// API limiter
+	apiLimiterEnabled = beego.AppConfig.DefaultBool("limiter::apiLimiterEnabled", true)
+	apiRequestsLimit = beego.AppConfig.DefaultInt("limiter::apiRequestsLimit", 20)
+	limitingTimeUnit = beego.AppConfig.DefaultString("limiter::limitingTimeUnit", "min")
+	perTime = beego.AppConfig.DefaultInt("limiter::perTime", 1)
 }

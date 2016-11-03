@@ -13,6 +13,13 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:ApiV1Controller"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:ApiV1Controller"],
+		beego.ControllerComments{
+			Method: "RateLimiter",
+			Router: `/rate-limiter/`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"] = append(beego.GlobalControllerRouter["github.com/stef-k/gosimple/controllers:LoginController"],
 		beego.ControllerComments{
 			Method: "ShowLoginTemplate",

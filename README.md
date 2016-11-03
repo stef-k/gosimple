@@ -20,6 +20,7 @@ just remove the `client` directory and modify the `index.html` template.
 * Session ready for classic login/logout handling
 * User model to start with
 * Login rate limiter for failed logins protection
+* API rate limiting
 
 ### How to start working
 
