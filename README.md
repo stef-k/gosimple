@@ -1,9 +1,9 @@
 # gosimple
 
-A Go/Beego project used as a starting point for web applications. 
+A Go/Beego project used as a starting point for web applications.
 The main goal is to use a JavaScript framework to implement application's views,
 with as few as possible server rendered templates from `views` directory.
-If you want to work with Beego's server side static templates, 
+If you want to work with Beego's server side static templates,
 just remove the `client` directory and modify the `index.html` template.
 
 ## Features
@@ -24,11 +24,14 @@ just remove the `client` directory and modify the `index.html` template.
 
 ### How to start working
 
-1. on one terminal tab start the server `bee run`
-2. on another one start webpack and gulp watchers with `npm run alldev`
+1. clone this repository to a **different** directory, for example: `git clone https://github.com/stef-k/gosimple.git myproject`
+2. run the `makemine.sh` script (it will remove the `.git` directory and rename all references of Go Simple to myproject)
+3. on one terminal tab start the server `bee run`
+4. if you want to use the React frontend starter cd into `client` dir and `npm install`
+5. start webpack and gulp watchers with `npm run alldev`
 
 Webpack watcher outputs the `bundle.js` file to `static/js/` directory.
-Gulp watcher outpus `style.css` `style.min.css` and `style.css.min.map` 
+Gulp watcher outpus `style.css` `style.min.css` and `style.css.min.map`
 to `static/css` directory.
 
 ## Main differences with vanilla Beego
